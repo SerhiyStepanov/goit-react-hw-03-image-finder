@@ -19,23 +19,6 @@ export default class ImageGallery extends Component {
     const prevPage = prevProps.page;
     const currentPage = this.props.page;
 
-    if (prevPage !== currentPage) {
-      this.setState(({ page }) => ({
-        page: page + 1,
-      }));
-      fetch(
-        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${currentPage}&per_page=12`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) =>
-          this.setState(({ search }) => ({
-            search: [...search, ...data.hits],
-          }))
-        );
-    }
-
     if (prevSearh !== currentSearch) {
       this.setState({ status: "pending" });
       fetch(
@@ -57,6 +40,23 @@ export default class ImageGallery extends Component {
           })
         )
         .catch((error) => this.setState({ error, status: "rejected" }));
+    }
+
+    if (prevPage !== currentPage) {
+      this.setState(({ page }) => ({
+        page: page + 1,
+      }));
+      fetch(
+        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${currentPage}&per_page=12`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) =>
+          this.setState(({ search }) => ({
+            search: [...search, ...data.hits],
+          }))
+        );
     }
   }
 
