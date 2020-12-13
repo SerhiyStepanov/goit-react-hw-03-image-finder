@@ -20,7 +20,7 @@ export default class ImageGallery extends Component {
     const currentPage = this.props.page;
 
     if (prevSearh !== currentSearch) {
-      this.setState({ status: "pending" });
+      this.setState({ status: "pending", page: 1 });
       fetch(
         `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${currentPage}&per_page=12`
       )

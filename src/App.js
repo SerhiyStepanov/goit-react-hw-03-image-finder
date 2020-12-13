@@ -15,7 +15,7 @@ export default class App extends Component {
     this.setState({ search });
   };
 
-  handlePageIncrement = () => {
+  handlePageIncrement = (page) => {
     this.setState((prevState) => ({
       page: prevState.page + 1,
     }));
