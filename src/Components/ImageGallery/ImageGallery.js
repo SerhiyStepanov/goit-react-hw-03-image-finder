@@ -14,13 +14,14 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { page } = this.state;
     const prevSearh = prevProps.search;
     const currentSearch = this.props.search;
 
     if (prevSearh !== currentSearch) {
-      this.setState({ status: "pending" });
+      this.setState({ status: "pending", page: 1 });
       fetch(
-        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=1&per_page=12`
+        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
       )
         .then((response) => {
           if (response.ok) {
