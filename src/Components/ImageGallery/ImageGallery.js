@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import Button from "../Button/Button";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import Loaded from "../Loader";
+import Button from "../Button";
 import s from "./ImageGallery.module.css";
 
 export default class ImageGallery extends Component {
@@ -16,13 +17,10 @@ export default class ImageGallery extends Component {
     const prevSearh = prevProps.search;
     const currentSearch = this.props.search;
 
-    const prevPage = prevProps.page;
-    const currentPage = this.props.page;
-
     if (prevSearh !== currentSearch) {
-      this.setState({ status: "pending", page: 1 });
+      this.setState({ status: "pending" });
       fetch(
-        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${currentPage}&per_page=12`
+        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=1&per_page=12`
       )
         .then((response) => {
           if (response.ok) {
@@ -41,24 +39,26 @@ export default class ImageGallery extends Component {
         )
         .catch((error) => this.setState({ error, status: "rejected" }));
     }
-
-    if (prevPage !== currentPage) {
-      this.setState(({ page }) => ({
-        page: page + 1,
-      }));
-      fetch(
-        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${currentPage}&per_page=12`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) =>
-          this.setState(({ search }) => ({
-            search: [...search, ...data.hits],
-          }))
-        );
-    }
   }
+
+  handleChangePage = () => {
+    const { search, page } = this.state;
+
+    this.setState(({ page }) => ({
+      page: page + 1,
+    }));
+    fetch(
+      `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${search}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) =>
+        this.setState(({ search }) => ({
+          search: [...search, ...data.hits],
+        }))
+      );
+  };
 
   render() {
     const { search, error, status } = this.state;
@@ -72,7 +72,7 @@ export default class ImageGallery extends Component {
     }
 
     if (status === "rejected") {
-      return <h2>{error.message}</h2>;
+      return <h2>{error}</h2>;
     }
 
     if (status === "resolved") {
@@ -81,6 +81,7 @@ export default class ImageGallery extends Component {
           {search.map((el) => (
             <ImageGalleryItem key={el.id} webformatURL={el.webformatURL} />
           ))}
+          <Button btnLoad={this.handleChangePage} />
         </ul>
       );
     }
