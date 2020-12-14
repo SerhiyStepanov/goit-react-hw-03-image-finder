@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import Button from "../Button/Button";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import Loaded from "../Loader";
 import Button from "../Button";
@@ -20,9 +19,8 @@ export default class ImageGallery extends Component {
 
     if (prevSearh !== currentSearch) {
       this.setState({ status: "pending", page: 1 });
-      fetch(
-        `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
-      )
+
+      this.apiFetch(currentSearch, page)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -42,6 +40,12 @@ export default class ImageGallery extends Component {
     }
   }
 
+  apiFetch = (search, page) => {
+    return fetch(
+      `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${search}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
+    );
+  };
+
   handleChangePage = () => {
     const { page } = this.state;
     const currentSearch = this.props.search;
@@ -50,9 +54,8 @@ export default class ImageGallery extends Component {
     this.setState(({ page }) => ({
       page: page + 1,
     }));
-    fetch(
-      `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${nextPage}&per_page=12`
-    )
+
+    this.apiFetch(currentSearch, nextPage)
       .then((response) => {
         return response.json();
       })
@@ -80,12 +83,14 @@ export default class ImageGallery extends Component {
 
     if (status === "resolved") {
       return (
-        <ul className={s.ImageGallery}>
-          {search.map((el) => (
-            <ImageGalleryItem key={el.id} webformatURL={el.webformatURL} />
-          ))}
+        <>
+          <ul className={s.ImageGallery}>
+            {search.map((el) => (
+              <ImageGalleryItem key={el.id} webformatURL={el.webformatURL} />
+            ))}
+          </ul>
           <Button btnLoad={this.handleChangePage} />
-        </ul>
+        </>
       );
     }
   }
