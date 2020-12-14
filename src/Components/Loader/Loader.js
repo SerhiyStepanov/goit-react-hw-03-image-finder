@@ -8,7 +8,7 @@ export default function Loaded() {
       <Loader
         style={{ textAlign: "center" }}
         type="ThreeDots"
-        color="#3f51b5"
+        color="#6464fa"
         height={100}
         width={100}
       />

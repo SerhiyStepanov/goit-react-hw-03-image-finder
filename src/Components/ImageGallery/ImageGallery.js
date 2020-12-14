@@ -45,12 +45,13 @@ export default class ImageGallery extends Component {
   handleChangePage = () => {
     const { page } = this.state;
     const currentSearch = this.props.search;
+    const nextPage = page + 1;
 
     this.setState(({ page }) => ({
       page: page + 1,
     }));
     fetch(
-      `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`
+      `https://pixabay.com/api/?key=8315600-a916a243d8ea2edafddc43bfd&q=${currentSearch}&image_type=photo&orientation=horizontal&page=${nextPage}&per_page=12`
     )
       .then((response) => {
         return response.json();
