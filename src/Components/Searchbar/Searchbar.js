@@ -14,7 +14,7 @@ export default class Searchbar extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (this.state.search.trim() === "") {
-      toast.error(" Введите параметры поиска", {
+      toast.error(" Введите параметры поиска !", {
         position: "top-right",
         autoClose: 3000,
       });

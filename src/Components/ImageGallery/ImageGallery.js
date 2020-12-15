@@ -83,10 +83,10 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    const { search, error, status, showModal } = this.state;
+    const { search, error, status, showModal, imageModal } = this.state;
 
     if (status === "idle") {
-      return <h2 style={{ textAlign: "center" }}>Введите параметы поиска</h2>;
+      return <h2 style={{ textAlign: "center" }}>Введите параметы поиска </h2>;
     }
 
     if (status === "pending") {
@@ -110,11 +110,13 @@ export default class ImageGallery extends Component {
               />
             ))}
           </ul>
+
           {showModal && (
             <Modal onCloseModal={this.closeModal}>
-              {<img src={this.state.imageModal} alt="" />}
+              {<img src={imageModal} alt="" />}
             </Modal>
           )}
+
           <Button btnLoad={this.handleChangePage} />
         </>
       );
