@@ -3,6 +3,7 @@ import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import Loaded from "../Loader";
 import Button from "../Button";
 import s from "./ImageGallery.module.css";
+import Modal from "../Modal";
 
 export default class ImageGallery extends Component {
   state = {
@@ -10,6 +11,7 @@ export default class ImageGallery extends Component {
     error: null,
     status: "idle",
     page: 1,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -66,8 +68,14 @@ export default class ImageGallery extends Component {
       );
   };
 
+  openModal = () => {
+    this.setState({
+      showModal: true,
+    });
+  };
+
   render() {
-    const { search, error, status } = this.state;
+    const { search, error, status, showModal } = this.state;
 
     if (status === "idle") {
       return <h2 style={{ textAlign: "center" }}>Введите параметы поиска</h2>;
@@ -86,10 +94,21 @@ export default class ImageGallery extends Component {
         <>
           <ul className={s.ImageGallery}>
             {search.map((el) => (
-              <ImageGalleryItem key={el.id} webformatURL={el.webformatURL} />
+              <ImageGalleryItem
+                key={el.id}
+                URL={el.webformatURL}
+                clickOnImageItem={this.openModal}
+              />
             ))}
           </ul>
+
           <Button btnLoad={this.handleChangePage} />
+
+          {showModal && (
+            <Modal>
+              <h2>ops</h2>
+            </Modal>
+          )}
         </>
       );
     }

@@ -1,10 +1,12 @@
 import React from "react";
 import s from "./ImageGalleryItem.module.css";
 
-export default function ImageGalleryItem({ id, webformatURL }) {
+export default function ImageGalleryItem({ id, URL, clickOnImageItem }) {
   return (
     <li className={s.ImageGalleryItem} key={id}>
-      <img src={webformatURL} alt="" className={s.ImageGalleryItemImage} />
+      <div onClick={clickOnImageItem}>
+        <img src={URL} alt="" className={s.ImageGalleryItemImage} />
+      </div>
     </li>
   );
 }
