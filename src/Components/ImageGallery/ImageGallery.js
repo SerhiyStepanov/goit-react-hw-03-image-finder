@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
+import Modal from "../Modal";
 import Loaded from "../Loader";
 import Button from "../Button";
 import s from "./ImageGallery.module.css";
-import Modal from "../Modal";
 
 export default class ImageGallery extends Component {
   state = {
@@ -75,7 +75,7 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    const { search, error, status, showModal } = this.state;
+    const { search, error, status } = this.state;
 
     if (status === "idle") {
       return <h2 style={{ textAlign: "center" }}>Введите параметы поиска</h2>;
@@ -102,13 +102,9 @@ export default class ImageGallery extends Component {
             ))}
           </ul>
 
-          <Button btnLoad={this.handleChangePage} />
+          <Modal />
 
-          {showModal && (
-            <Modal>
-              <h2>ops</h2>
-            </Modal>
-          )}
+          <Button btnLoad={this.handleChangePage} />
         </>
       );
     }
