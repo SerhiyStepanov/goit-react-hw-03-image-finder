@@ -12,6 +12,7 @@ export default class ImageGallery extends Component {
     status: "idle",
     page: 1,
     showModal: false,
+    imageModal: "",
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -68,9 +69,16 @@ export default class ImageGallery extends Component {
       );
   };
 
-  openModal = () => {
+  openModal = (largeImageURL) => {
     this.setState({
       showModal: true,
+      imageModal: largeImageURL,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false,
     });
   };
 
@@ -93,15 +101,20 @@ export default class ImageGallery extends Component {
       return (
         <>
           <ul className={s.ImageGallery}>
-            {search.map((el) => (
+            {search.map((el, index) => (
               <ImageGalleryItem
                 key={el.id}
-                URL={el.webformatURL}
+                webformatURL={el.webformatURL}
+                largeImageURL={el.largeImageURL}
                 clickOnImageItem={this.openModal}
               />
             ))}
           </ul>
-          {showModal && <Modal />}
+          {showModal && (
+            <Modal onCloseModal={this.closeModal}>
+              {<img src={this.state.imageModal} alt="" />}
+            </Modal>
+          )}
           <Button btnLoad={this.handleChangePage} />
         </>
       );
