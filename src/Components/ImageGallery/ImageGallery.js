@@ -75,7 +75,7 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    const { search, error, status } = this.state;
+    const { search, error, status, showModal } = this.state;
 
     if (status === "idle") {
       return <h2 style={{ textAlign: "center" }}>Введите параметы поиска</h2>;
@@ -101,9 +101,7 @@ export default class ImageGallery extends Component {
               />
             ))}
           </ul>
-
-          <Modal />
-
+          {showModal && <Modal />}
           <Button btnLoad={this.handleChangePage} />
         </>
       );
